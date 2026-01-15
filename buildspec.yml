@@ -9,7 +9,7 @@ phases:
       - echo Logging in to AWS CodeArtifact...
       - CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain nextwork --domain-owner 816351728413 --region us-west-2 --query authorizationToken --output text`
       - export CODEARTIFACT_AUTH_TOKEN
-    build:
+  build:
     commands:
       - echo "====== BEGINNING TEST PHASE ======"
       - echo "Running tests on `date`"
@@ -25,6 +25,10 @@ phases:
     commands:
       - echo "Build completed on `date`"
       - mvn -s settings.xml package
+      - echo "===== ARTIFACT CONTENT CHECK ====="
+      - ls -la
+      - ls -la scripts
+      - ls -la target
 
 artifacts:
   files:
