@@ -11,30 +11,29 @@ phases:
       - export CODEARTIFACT_AUTH_TOKEN
   build:
     commands:
-      - echo "====== BEGINNING TEST PHASE ======"
-      - echo "Running tests on `date`"
+      - echo "====== TEST PHASE ======"
       - chmod +x run-tests.sh
       - ./run-tests.sh
-      - echo "====== TEST PHASE COMPLETE ======"
-      - echo "====== BEGINNING BUILD PHASE ======"
-      - echo "Build started on `date`"
+      - echo "====== BUILD PHASE ======"
       - mvn -s settings.xml compile
-      - echo "====== BUILD PHASE COMPLETE ======"
-  
+      - mvn -s settings.xml package
   post_build:
     commands:
-      - echo "Build completed on `date`"
-      - mvn -s settings.xml package
-      - echo "Moving WAR to root for CodeDeploy"
-      - cp -f target/nextwork-web-project.war .
-      - echo "===== ARTIFACT CONTENT CHECK ====="
-      - ls -la
-      - ls -la scripts
-      - ls -la target
+      - echo "Preparing deployment ZIP for CodeDeploy..."
+      # create a temporary folder for packaging
+      - mkdir -p deploy_package
+      - cp target/nextwork-web-project.war deploy_package/
+      - cp appspec.yml deploy_package/
+      - cp -r scripts deploy_package/
+      # zip the contents at root of archive
+      - cd deploy_package
+      - zip -r ../nextwork-deploy.zip *
+      - cd ..
+      - echo "Deployment ZIP created:"
+      - ls -la nextwork-deploy.zip
+      # upload to S3
+      - aws s3 cp nextwork-deploy.zip s3://nextwork-devops-cicd-christine/teacup/nextwork-deploy.zip
 
 artifacts:
   files:
-    - nextwork-web-project.war
-    - appspec.yml
-    - scripts/**/*
-  discard-paths: no
+    - nextwork-deploy.zip
