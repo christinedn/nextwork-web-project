@@ -25,6 +25,8 @@ phases:
     commands:
       - echo "Build completed on `date`"
       - mvn -s settings.xml package
+      - echo "Moving WAR to root for CodeDeploy"
+      - cp -f target/nextwork-web-project.war .
       - echo "===== ARTIFACT CONTENT CHECK ====="
       - ls -la
       - ls -la scripts
@@ -32,7 +34,7 @@ phases:
 
 artifacts:
   files:
-    - target/nextwork-web-project.war
+    - nextwork-web-project.war
     - appspec.yml
     - scripts/**/*
   discard-paths: no
