@@ -12,11 +12,15 @@ phases:
       - echo "Logging in to AWS CodeArtifact..."
       - CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain nextwork --domain-owner 816351728413 --region us-west-2 --query authorizationToken --output text)
       - export CODEARTIFACT_AUTH_TOKEN
+      - echo "Listing repo root for sanity check:"
+      - ls -R
 
   build:
     commands:
       - echo "====== TEST PHASE ======"
-      - chmod +x scripts/run-tests.sh
+      # Make sure the scripts path matches your repo structure
+      - chmod +x scripts/*.sh
+      - ls -la scripts/
       - scripts/run-tests.sh
       - echo "====== BUILD PHASE ======"
       - mvn -s settings.xml compile
