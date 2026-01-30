@@ -16,8 +16,8 @@ phases:
   build:
     commands:
       - echo "====== TEST PHASE ======"
-      - chmod +x run-tests.sh
-      - ./run-tests.sh
+      - chmod +x scripts/run-tests.sh
+      - scripts/run-tests.sh
       - echo "====== BUILD PHASE ======"
       - mvn -s settings.xml compile
       - mvn -s settings.xml package
@@ -33,20 +33,15 @@ phases:
       - cp target/nextwork-web-project.war deploy_package/
       # copy appspec.yml
       - cp appspec.yml deploy_package/
-      # copy scripts into scripts folder
-      - cp install_dependencies.sh start_server.sh stop_server.sh deploy_package/scripts/
-      # list contents
+      # copy all scripts from repo's scripts/ folder into deploy_package/scripts/
+      - cp scripts/*.sh deploy_package/scripts/
+      # list contents for verification
       - echo "Contents of deploy_package:"
       - ls -R deploy_package
-      # Optional: upload to S3 manually
-      # - cd deploy_package
-      # - zip -r ../nextwork-deploy.zip *
-      # - cd ..
-      # - aws s3 cp nextwork-deploy.zip s3://nextwork-devops-cicd-christine/teacup/nextwork-deploy.zip
 
 artifacts:
   files:
     - appspec.yml
     - nextwork-web-project.war
-    - scripts/**     # include all scripts in scripts folder
+    - scripts/**   # include all scripts recursively
   discard-paths: yes
