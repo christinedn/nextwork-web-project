@@ -4,11 +4,15 @@ phases:
   install:
     runtime-versions:
       java: corretto8
+    commands:
+      - echo "Installing dependencies if needed..."
+
   pre_build:
     commands:
-      - echo Logging in to AWS CodeArtifact...
-      - CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain nextwork --domain-owner 816351728413 --region us-west-2 --query authorizationToken --output text`
+      - echo "Logging in to AWS CodeArtifact..."
+      - CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain nextwork --domain-owner 816351728413 --region us-west-2 --query authorizationToken --output text)
       - export CODEARTIFACT_AUTH_TOKEN
+
   build:
     commands:
       - echo "====== TEST PHASE ======"
@@ -17,26 +21,32 @@ phases:
       - echo "====== BUILD PHASE ======"
       - mvn -s settings.xml compile
       - mvn -s settings.xml package
+      - echo "WAR files in target folder:"
+      - ls -la target/*.war
+
   post_build:
     commands:
-      - echo "Preparing deployment ZIP for CodeDeploy..."
-      # create a temporary folder for packaging
-      - mkdir -p deploy_package
+      - echo "Preparing deployment package..."
+      # create deploy folder
+      - mkdir -p deploy_package/scripts
+      # copy WAR
       - cp target/nextwork-web-project.war deploy_package/
+      # copy appspec.yml
       - cp appspec.yml deploy_package/
-      - cp -r scripts deploy_package/
-      # zip the contents at root of archive
-      - cd deploy_package
-      - zip -r ../nextwork-deploy.zip *
-      - cd ..
-      - echo "Deployment ZIP created:"
-      - ls -la nextwork-deploy.zip
-      # **REMOVE manual upload to S3**
+      # copy scripts into scripts folder
+      - cp install_dependencies.sh start_server.sh stop_server.sh deploy_package/scripts/
+      # list contents
+      - echo "Contents of deploy_package:"
+      - ls -R deploy_package
+      # Optional: upload to S3 manually
+      # - cd deploy_package
+      # - zip -r ../nextwork-deploy.zip *
+      # - cd ..
       # - aws s3 cp nextwork-deploy.zip s3://nextwork-devops-cicd-christine/teacup/nextwork-deploy.zip
 
 artifacts:
   files:
     - appspec.yml
     - nextwork-web-project.war
-    - scripts/**   # include all scripts
+    - scripts/**     # include all scripts in scripts folder
   discard-paths: yes
