@@ -36,5 +36,7 @@ phases:
 
 artifacts:
   files:
-    - nextwork-deploy.zip
-  discard-paths: yes   # ✅ important change
+    - appspec.yml
+    - nextwork-web-project.war
+    - scripts/**   # include all scripts
+  discard-paths: yes
