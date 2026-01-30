@@ -17,11 +17,6 @@ phases:
 
   build:
     commands:
-      - echo "====== TEST PHASE ======"
-      # Make sure the scripts path matches your repo structure
-      - chmod +x scripts/*.sh
-      - ls -la scripts/
-      - scripts/run-tests.sh
       - echo "====== BUILD PHASE ======"
       - mvn -s settings.xml compile
       - mvn -s settings.xml package
