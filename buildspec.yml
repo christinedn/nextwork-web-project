@@ -31,9 +31,10 @@ phases:
       - cd ..
       - echo "Deployment ZIP created:"
       - ls -la nextwork-deploy.zip
-      # upload to S3
-      - aws s3 cp nextwork-deploy.zip s3://nextwork-devops-cicd-christine/teacup/nextwork-deploy.zip
+      # **REMOVE manual upload to S3**
+      # - aws s3 cp nextwork-deploy.zip s3://nextwork-devops-cicd-christine/teacup/nextwork-deploy.zip
 
 artifacts:
   files:
     - nextwork-deploy.zip
+  discard-paths: yes   # ✅ important change
