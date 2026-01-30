@@ -18,29 +18,31 @@ phases:
   build:
     commands:
       - echo "====== BUILD PHASE ======"
-      - mvn -s settings.xml compile
-      - mvn -s settings.xml package
+      - mvn -s settings.xml clean package
       - echo "WAR files in target folder:"
       - ls -la target/*.war
 
   post_build:
     commands:
-      - echo "Preparing deployment package..."
-      # create deploy folder
+      - echo "====== PREPARING DEPLOYMENT PACKAGE ======"
+
+      # create deployment directory structure
       - mkdir -p deploy_package/scripts
-      # copy WAR
+
+      # copy WAR to root of deploy package (matches appspec.yml)
       - cp target/nextwork-web-project.war deploy_package/
+
       # copy appspec.yml
       - cp appspec.yml deploy_package/
-      # copy all scripts from repo's scripts/ folder into deploy_package/scripts/
+
+      # copy scripts into scripts/ directory
       - cp scripts/*.sh deploy_package/scripts/
-      # verify contents
-      - echo "Contents of deploy_package:"
+
+      # verify final package structure
+      - echo "Final deploy_package contents:"
       - ls -R deploy_package
 
 artifacts:
+  base-directory: deploy_package
   files:
-    - appspec.yml
-    - nextwork-web-project.war
-    - scripts/**   # include all scripts recursively
-  discard-paths: yes
+    - '**/*'
