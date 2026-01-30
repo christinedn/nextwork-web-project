@@ -35,7 +35,7 @@ phases:
       - cp appspec.yml deploy_package/
       # copy all scripts from repo's scripts/ folder into deploy_package/scripts/
       - cp scripts/*.sh deploy_package/scripts/
-      # list contents for verification
+      # verify contents
       - echo "Contents of deploy_package:"
       - ls -R deploy_package
 
