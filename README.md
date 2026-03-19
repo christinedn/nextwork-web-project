@@ -1,6 +1,6 @@
 # Java Web App Deployment with AWS CI/CD
 
-Welcome to this project combining Java web app development and AWS CI/CD tools!
+This project combines Java web app development with AWS CI/CD tools.
 
 <br>
 
@@ -20,15 +20,13 @@ The deployment pipeline I'm building around the Java web app in this repository 
 <br>
 
 ## Technologies
-Here’s what I’m using for this project:
-
-- **Amazon EC2**: I'm developing my web app on Amazon EC2 virtual servers, so that software development and deployment happens entirely on the cloud.
+- **Amazon EC2**: I'm developing my web app on Amazon EC2 virtual servers. Software development and deployment happens entirely on the cloud.
 - **VS Code**: For my IDE, I chose Visual Studio Code. It connects directly to my development EC2 instance, making it easy to edit code and manage files in the cloud.
 - **GitHub**: All my web app code is stored and versioned in this GitHub repository.
-- **AWS CodeArtifact**: Once it's rolled out, CodeArtifact will store my artifacts and dependencies, which is great for high availability and speeding up my project's build process.
-- **AWS CodeBuild**: Once it's rolled out, CodeBuild will take over my build process. It'll compile the source code, run tests, and produce ready-to-deploy software packages automatically.
-- **AWS CodeDeploy**: Once it's rolled out, CodeDeploy will automate my deployment process across EC2 instances.
-- **AWS CodePipeline**: Once it's rolled out, CodePipeline will automate the entire process from GitHub to CodeDeploy, integrating build, test, and deployment steps into one efficient workflow.
+- **AWS CodeArtifact**: CodeArtifact stores artifacts and dependencies. Ensures high availability and speeding up project's build process.
+- **AWS CodeBuild**: CodeBuild will take over the build process. It'll compile the source code, run tests, and produce ready-to-deploy software packages automatically.
+- **AWS CodeDeploy**: CodeDeploy automates deployment process across EC2 instances.
+- **AWS CodePipeline**: CodePipeline will automate the entire process from GitHub to CodeDeploy, integrating build, test, and deployment steps into one efficient workflow.
 
 
 <br>
