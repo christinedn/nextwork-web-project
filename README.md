@@ -49,7 +49,5 @@ To get this project up and running on your local machine, follow these steps:
 
 <br>
 
-<br>
-
 ## Conclusion
-Shoutout to **[NextWork](https://learn.nextwork.org/app)** for their project guide and support.
+Shoutout to **[NextWork](https://learn.nextwork.org/app)** for their project guide.
