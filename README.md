@@ -8,7 +8,6 @@ Welcome to this project combining Java web app development and AWS CI/CD tools!
 - [Introduction](#introduction)
 - [Technologies](#technologies)
 - [Setup](#setup)
-- [Contact](#contact)
 - [Conclusion](#conclusion)
 
 <br>
